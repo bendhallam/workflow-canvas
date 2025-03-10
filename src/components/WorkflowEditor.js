@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./WorkflowEditor.css";
 
 const WorkflowEditor = ({ onCancel, onSave, workflow, availableActions }) => {
 
@@ -45,8 +46,25 @@ const WorkflowEditor = ({ onCancel, onSave, workflow, availableActions }) => {
     }
   };
 
+  // Handler for save button: passes localstages workflow back to parent component
   const handleSave = () => {
     onSave({...workflow, Stages: localStages });
+  };
+
+  const handleRemoveStage = (stageId) => {
+    // Filter out the stage that was clicked
+    let updatedStages = localStages.filter(stage => stage.id !== stageId);
+
+    // Recalculate the stage relationships for the updated list
+    updatedStages = updatedStages.map((stage, index) => ({
+      ...stage,
+      isStart: index===0,
+      prevStage: index > 0 ? updatedStages[index - 1].id : null, // If not first, then grab the next element's index, otherwise null
+      nextStage: index < updatedStages.length - 1 ? updatedStages[index + 1].id : null, // If not last, grab previous element's index, otherwise null
+    }));
+
+    // Update local state with the new list of stages
+    setLocalStages(updatedStages);
   }
 
   return(
@@ -55,10 +73,11 @@ const WorkflowEditor = ({ onCancel, onSave, workflow, availableActions }) => {
       <div className="workflow-editor__containers">
         {/* Left Panel: List of Available Actions */}
         <div className="available-actions">
-        <h3>Available Actions</h3>
-        <ul>
+        <h3 className="available-actions__title">Available Actions</h3>
+        <ul className="available-actions__list">
           {availableActions.map((action, index) => (
             <li
+              className="available-actions__item"
               key={index}
               draggable
               onDragStart={(e) => handleDragStart(e, action)}
@@ -74,18 +93,23 @@ const WorkflowEditor = ({ onCancel, onSave, workflow, availableActions }) => {
           onDrop={handleDrop}
           onDragOver={handleDragOver}  
         >
-        <h3>Workflow Canvas</h3>
-        <div>
+        <h3 className="workflow-canvas__title">Workflow Canvas</h3>
+        <div className="workflow-canvas__list">
           {localStages.map((stage) => (
-            <div>
+            <div
+              className="workflow-canvas__item"
+              onClick={() => handleRemoveStage(stage.id)}
+            >
               {stage.action}
             </div>
           ))}
         </div>
         </div>
       </div>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={onCancel}>Cancel</button>
+      <div className="workflow-editor__buttons">
+        <button className="workflow-editor__save" onClick={handleSave}>Save</button>
+        <button className="workflow-editor__cancel" onClick={onCancel}>Cancel</button>
+      </div>
     </div>
   )
 }

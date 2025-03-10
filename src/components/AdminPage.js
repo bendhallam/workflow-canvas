@@ -1,10 +1,12 @@
 import React from "react";
+import "./AdminPage.css";
+
 
 const AdminPage = ({onSetupWorkflow}) => {
   return(
-    <div>
-      <h2>Admin Page</h2>
-      <button onClick={onSetupWorkflow}>Setup Workflow</button>
+    <div className="admin-page">
+      <h2 className="admin-page__title">Admin Page</h2>
+      <button className="admin-page__setup" onClick={onSetupWorkflow}>Setup Workflow</button>
     </div>
   )
 }
