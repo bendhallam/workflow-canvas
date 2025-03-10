@@ -45,6 +45,10 @@ const WorkflowEditor = ({ onCancel, onSave, workflow, availableActions }) => {
     }
   };
 
+  const handleSave = () => {
+    onSave({...workflow, Stages: localStages });
+  }
+
   return(
     <div className="workflow-editor">
       <h2>Workflow Editor</h2>
@@ -80,7 +84,7 @@ const WorkflowEditor = ({ onCancel, onSave, workflow, availableActions }) => {
         </div>
         </div>
       </div>
-      <button onClick={onSave}>Save</button>
+      <button onClick={handleSave}>Save</button>
       <button onClick={onCancel}>Cancel</button>
     </div>
   )

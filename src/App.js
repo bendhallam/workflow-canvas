@@ -9,16 +9,18 @@ function App() {
   const [workflow, setWorkflow] = useState(initialWorkflow); // Determines current workflow
 
   // BUTTON HANDLERS
+  // Setup Workflow Button
   const handleSetupWorkflow = () => {
     setEditing(true);
   };
-
+  // Cancel Button
   const handleCancel = () => {
     setEditing(false);
   }
-
-  const handleSave = () => {
-    setEditing(false);
+  // Save Button
+  const handleSave = (newWorkFlow) => {
+    setWorkflow(newWorkFlow);
+    setEditing(false)
   }
 
   return (
