@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import AdminPage from "./components/AdminPage";
+import WorkflowEditor from "./components/WorkflowEditor";
 
 function App() {
+  // State to determine if workflow-editor is open
+  const [editing, setEditing] = useState(false);
+
+  const handleSetupWorkflow = () => {
+    setEditing(true);
+  };
+  
+  const handleCancel = () => {
+    setEditing(false);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {editing ? (
+        <WorkflowEditor 
+          onCancel = {handleCancel}
+        />
+      ) : (
+        <AdminPage 
+          onSetupWorkflow={handleSetupWorkflow}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default App;
