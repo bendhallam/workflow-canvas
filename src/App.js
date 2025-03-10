@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import AdminPage from "./components/AdminPage";
 import WorkflowEditor from "./components/WorkflowEditor";
+import { availableActions, initialWorkflow } from "./data";
 
 function App() {
   // State to determine if workflow-editor is open
   const [editing, setEditing] = useState(false);
+  const [workflow, setWorkflow] = useState(initialWorkflow);
 
   const handleSetupWorkflow = () => {
     setEditing(true);
@@ -18,7 +20,9 @@ function App() {
     <div className="App">
       {editing ? (
         <WorkflowEditor 
-          onCancel = {handleCancel}
+          workflow={workflow}
+          availableActions={availableActions}
+          onCancel={handleCancel}
         />
       ) : (
         <AdminPage 
